@@ -1,0 +1,54 @@
+name: Bug
+description: Submit a bug report to help us improve 
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        * Before you file an issue read the Contribution guidelines.
+        * Check to make sure someone hasn't already opened a similar [issue](https://github.com/itssingh/xeus-asm/issues).
+
+  - type: textarea
+    attributes:
+      label: What is the problem
+      description: Include links to articles where you're seeing a problem, screenshots, what browser you're using, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: How to reproduce
+      description: Describe the bug and list the steps you used when the issue occurred.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Versions
+      description: Last commit id on master, Operating System
+    validations:
+      required: true
+  
+  - type: textarea
+    attributes:
+      label: Logs
+      description: Any logs generated in
+    validations:
+      required: false
+      
+  - type: checkboxes
+    attributes:
+      label: assignees
+      description: Do you want to work on this issue?
+      options:
+        - label: Yes, I'd like to work
+          required: false
+  

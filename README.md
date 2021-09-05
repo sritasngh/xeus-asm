@@ -29,14 +29,6 @@ In our previous semesters, we went through courses dealing with 8085 microproces
 - Software size producing memory issues. 
 
 These issues made us brainstorm in a direction that could increase the ease of user experience and you won’t be needing your system always for any sort of work as everything will be browser-based and you will be just a login away from your work.
-
-## Tech Stack
-
-- **Assembly**: A type of low-level programming language that is intended to communicate directly with a computer's hardware.
-- **C/C++**: Using C/C++ assembly program interpreter/compiler.
-- **Xeus framework**: Xeus is a C++ implementation of the Jupyter kernel protocol, and a framework to create Jupyter kernels.
-- **Jupyter notebook**: Using its UI to provide functionality at the client-side
-
 ## Workflow
 
-![Getting Started](images/workflow.jpeg)
+![workflow](resources/workflow.jpeg)

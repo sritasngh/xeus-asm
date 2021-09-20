@@ -18,8 +18,8 @@
 using namespace std;
 
 struct Register {
-  string A, B, C, D, E, G, H, PC;
-  bool S, Z, AC, P, C;
+  string A, B, C, D, E, H, L, PC;
+  bool S, Z, AC, P, CA;
   friend ostream &operator<<(ostream &out, const Register &r);
 };
 class Interpreter {
@@ -34,7 +34,6 @@ private:
 public:
   Interpreter();
   Register getRegister();
-  void printRegisters();
   void input();
   void multiLine();
   void execution(string pc, map<string, string> &Memory,

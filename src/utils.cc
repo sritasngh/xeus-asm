@@ -45,15 +45,19 @@ string executionCode(string command, string Registers[], bool flag[],
     commandPart.push_back(inst);
     part = strtok(NULL, delimiter);
   }
-  instruction1[commandPart[0]](commandPart[1], Registers, flag, memory);
-  instruction2[commandPart[0]](commandPart[1], commandPart[2], Registers, flag,
-                               memory);
+  // instruction1[commandPart[0]](commandPart[1], Registers, flag, memory);
+  // instruction2[commandPart[0]](commandPart[1], commandPart[2], Registers, flag,
+  //                              memory);
   if (commandPart[0] == "MOV") {
     MOV(commandPart[1], commandPart[2], Registers, flag, memory);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   } else if (commandPart[0] == "ADD") {
     ADD(commandPart[1], Registers, flag, memory);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "MVI") {
+    MVI(commandPart[1], commandPart[2], Registers, flag, memory);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   }
@@ -76,11 +80,9 @@ bool validityAddress(string data) {
 }
 
 int operationSize(string str) {
-  string one[] = {"HLT", "MOV", "STAX", "XCHG", "ADD", "SUB", "INR",
-                  "DCR", "INX", "DCX",  "DAD",  "CMA", "CMP"};
-  string two[] = {"MVI", "ADI", "SUI"};
-  string three[] = {"LXI", "LDA", "STA", "SHLD", "LHLD", "JMP",
-                    "JC",  "JNZ", "JNC", "JZ",   "SET"};
+  string one[] = {"HLT", "MOV"};
+  string two[] = {"MVI"};
+  string three[] = {"SET"};
   const char *ch = str.c_str();
   char *var = (char *)ch;
   const char *delimiter = " ,";
@@ -216,4 +218,21 @@ string hexAdd(string arg1, string arg2, bool flag[], bool carry) {
   }
 
   return resultant;
+}
+
+bool isHexadecimal(char a){
+
+	if((a>='0' && a<='9') || (a>='A' && a<='F'))
+		return true;
+	else
+		return false;
+}
+
+bool validityData(string a){
+
+	int l=a.length();
+	if(l==2 && isHexadecimal(a[0]) && isHexadecimal(a[1]))
+		return true;
+	else 
+		return false;
 }

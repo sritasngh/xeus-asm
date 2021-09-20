@@ -11,7 +11,7 @@ ostream &operator<<(ostream &out, const Register &r) {
   out << "Registers\nA\t" << r.A << "\nBC\t" << r.B << "\t" << r.C << "\nDE\t"
       << r.D << "\t" << r.E << "\nHL\t" << r.H << "\t" << r.L << "\nPC\t"
       << r.PC << "\n";
-  out << "Flags\nS\tZ\tAC\tP\tC\n"
+  out << "Flags\nS\tZ\tAC\tP\tAC\n"
       << r.S << "\t" << r.Z << "\t" << r.AC << "\t" << r.P << "\t" << r.C
       << "\n";
   return out;
@@ -29,11 +29,11 @@ Interpreter::Interpreter() {
 }
 
 Register Interpreter::getRegister() {
-  Register register = {registers[0], registers[1], registers[2], registers[3],
+  Register resister = {registers[0], registers[1], registers[2], registers[3],
                        registers[4], registers[5], registers[6], pc,
                        flag[7],      flag[6],      flag[4],      flag[2],
                        flag[0]};
-  return register;
+  return resister;
 }
 
 void Interpreter::input() {
@@ -48,17 +48,6 @@ void Interpreter::input() {
     exit(1);
   }
   sequence.push_back(start);
-}
-
-void Interpreter::printRegisters() {
-  int i = 0;
-  for (const auto &registerName : registers) {
-    std::cout << "Name: " << registerNames[i]
-              << "\tRegister Value: " << (ui)registerName.registerValue
-              << "\tBits:" << std::bitset<8>(registerName.registerValue)
-              << '\n';
-    i++;
-  }
 }
 
 void Interpreter::multiLine() {

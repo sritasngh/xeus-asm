@@ -32,10 +32,13 @@ bool validityRegisterPair(string reg);
 int registerNumber(string str);
 string hexAdd(string arg1, string arg2, bool flag[], bool carry);
 
-map<string, function<void(string, string[], bool[], map<string, string> &)>>
-instruction1{{"add", ADD}};
+// map<string, function<void(string, string[], bool[], map<string, string> &)>>
+// instruction1{{"add", ADD}};
 
-map<string, function<void(string, string, string[], bool[], map<string, string> &)>>
-instruction2{{"mov", MOV}};
+// map<string, function<void(string, string, string[], bool[], map<string, string> &)>>
+// instruction2{{"mov", MOV}};
+
+bool isHexadecimal(char a);
+bool validityData(string a);
 
 #endif // UTILS_HPP_

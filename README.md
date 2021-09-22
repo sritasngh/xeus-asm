@@ -1,10 +1,6 @@
-# Term Project 1
+# Jupyter Kernel for ASM
 
 This repository is for the final year term project where we aim to create a **Jupyter Kernel** for 8085 Microprocessor assembly language. Our project aims to develop a kernel that can interpret assembly-level programs right from Jupyter notebook.
-
-## Project Title
-
-**Jupyter Kernel for ASM**
 
 ## Project Supervisor
 

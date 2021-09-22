@@ -14,12 +14,14 @@
 #include <string>
 #include <vector>
 
-#include "utils.hpp";
+#include "utils.hpp"
 
 using namespace std;
 
 void ADD(string arg1, string registers[], bool flag[],
-         map<string, string> &memory);  
-
-void MOV (string argument1,string argument2,string registers[],bool flag[],map<string,string> &memory);
+         map<string, string> &memory);
+void MOV(string argument1, string argument2, string registers[], bool flag[],
+         map<string, string> &memory);
+void MVI(string arg1, string arg2, string registers[], bool flags[],
+         map<string, string> &memory);
 #endif // INSTRUCTION_HPP_

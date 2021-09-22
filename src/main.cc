@@ -10,8 +10,6 @@
 int main(int argc, char *argv[]) {
   Interpreter instance;
   instance.input();
-  if (argc == 2) {
-    instance.multiLine();
-    cout<<instance.getRegister();
-  }
+  instance.multiLine();
+  cout<<instance.getRegister();
 }

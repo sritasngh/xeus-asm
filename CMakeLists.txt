@@ -5,4 +5,6 @@ project(xeus-asm LANGUAGES CXX
     DESCRIPTION "Jupyter Kernel for ASM"
     HOMEPAGE_URL "https://github.com/itssingh/xeus-asm")
 
-include_directories(include/xasm)
+include_directories(include)
+
+add_executable(main src/main.cc src/instruction.cc src/interpreter.cc src/utils.cc)

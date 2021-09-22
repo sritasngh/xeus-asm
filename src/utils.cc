@@ -46,7 +46,8 @@ string executionCode(string command, string Registers[], bool flag[],
     part = strtok(NULL, delimiter);
   }
   // instruction1[commandPart[0]](commandPart[1], Registers, flag, memory);
-  // instruction2[commandPart[0]](commandPart[1], commandPart[2], Registers, flag,
+  // instruction2[commandPart[0]](commandPart[1], commandPart[2], Registers,
+  // flag,
   //                              memory);
   if (commandPart[0] == "MOV") {
     MOV(commandPart[1], commandPart[2], Registers, flag, memory);
@@ -80,7 +81,7 @@ bool validityAddress(string data) {
 }
 
 int operationSize(string str) {
-  string one[] = {"HLT", "MOV"};
+  string one[] = {"HLT", "MOV", "ADD"};
   string two[] = {"MVI"};
   string three[] = {"SET"};
   const char *ch = str.c_str();

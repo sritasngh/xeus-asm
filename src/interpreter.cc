@@ -39,7 +39,6 @@ Register Interpreter::getRegister() {
 void Interpreter::input() {
   cout << "\nEnter the starting address:\n";
   cin >> start;
-  pc = start;
   if (!validityAddress(start)) {
 
     cout << "The memory you entered either does not exist or is reserved by "
@@ -47,6 +46,7 @@ void Interpreter::input() {
             "location\nThe program will quit\n";
     exit(1);
   }
+  pc = start;
   sequence.push_back(start);
 }
 
@@ -58,11 +58,11 @@ void Interpreter::multiLine() {
     string line;
     getline(cin, line);
     Memory[pc] = line;
-    pc = updatedAddress(pc, Memory);
+    sequence.push_back(pc);
     if (line == "HLT") {
       break;
-      sequence.push_back(pc);
     }
+    pc = updatedAddress(pc, Memory);
   }
   execution(start, Memory, sequence, flag, registers);
 }

@@ -24,8 +24,8 @@ struct Register {
 };
 class Interpreter {
 private:
-  map<string, string> Memory;
-  vector<string> sequence;
+  map<string, string> Memory; //stores instruction
+  vector<string> sequence; //stores pc pointing to an instruction
   string start;
   string pc;
   bool flag[8];

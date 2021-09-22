@@ -6,16 +6,16 @@ This repository is for the final year term project where we aim to create a **Ju
 
 **Jupyter Kernel for ASM**
 
+## Project Supervisor
+
+- [Dr. Philemon Daniel](https://github.com/phildani7)
+
 ## Team Members
 
 - [Sarita Singh](https://github.com/itssingh)
 - [Tamanna Rana](https://github.com/TamannaRana123)
 - [B. Krutik Ganpati](https://github.com/13KFossil)
 - [Nikita Mahoviya](https://github.com/nikitamahoviya)
-
-## Project Mentor
-
-- [Dr. Philemon Daniel](https://github.com/phildani7)
 
 ## Organization
 

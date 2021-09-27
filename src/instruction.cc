@@ -93,7 +93,7 @@ void MVI (string arg1,string arg2,string registers[],bool flags[],map<string,str
 				}
         	}
 		else if(validityRegisters(arg1)&&validityData(arg2)){	
-			cout << "Do Nothing\n";
+			registers[registerNumber(arg1)] = arg2;
 		}
 		else{
 			cout<<"Error: "<<"Invalid content\nThe program will quit\n";

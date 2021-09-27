@@ -58,6 +58,7 @@ void Interpreter::multiLine() {
     string line;
     getline(cin, line);
     Memory[pc] = line;
+    cout<<line<<"\n";
     sequence.push_back(pc);
     if (line == "HLT") {
       break;

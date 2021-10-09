@@ -1,0 +1,9 @@
+{
+    "display_name": "xasm",
+    "argv": [
+        "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/xasm",
+        "-f",
+        "{connection_file}"
+    ],
+    "language": "asm"
+}

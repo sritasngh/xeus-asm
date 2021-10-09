@@ -54,7 +54,6 @@ void Interpreter::multiLine() {
   cin.ignore();
   cout << "\nEnter the code:\n";
   while (1) {
-    cout << ">> " << pc << " ";
     string line;
     getline(cin, line);
     Memory[pc] = line;

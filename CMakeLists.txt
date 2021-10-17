@@ -56,7 +56,7 @@ add_executable(${EXECUTABLE_NAME} "")
 target_sources(${EXECUTABLE_NAME} PRIVATE src/main.cc src/instruction.cc src/interpreter.cc src/utils.cc src/xasm_interpreter.cc)
 target_include_directories(${EXECUTABLE_NAME}
         PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include)
-
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${xeus_target} Threads::Threads)
 if (APPLE)
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES MACOSX_RPATH ON)
 else ()

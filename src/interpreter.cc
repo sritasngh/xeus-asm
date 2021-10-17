@@ -7,14 +7,13 @@
 
 #include "xasm/interpreter.hpp"
 
-ostream &operator<<(ostream &out, const Register &r) {
-  out << "Registers\nA\t" << r.A << "\nBC\t" << r.B << "\t" << r.C << "\nDE\t"
-      << r.D << "\t" << r.E << "\nHL\t" << r.H << "\t" << r.L << "\nPC\t"
-      << r.PC << "\n";
-  out << "Flags\nS\tZ\tAC\tP\tAC\n"
-      << r.S << "\t" << r.Z << "\t" << r.AC << "\t" << r.P << "\t" << r.C
-      << "\n";
-  return out;
+string Register::toString() const{
+  stringstream ss;
+  ss << "Registers\nA\t" << A << "\nBC\t" << B << "\t" << C << "\nDE\t" << D
+     << "\t" << E << "\nHL\t" << H << "\t" << L << "\nPC\t" << PC << "\n";
+  ss << "Flags\nS\tZ\tAC\tP\tAC\n" << S << "\t" << Z << "\t" << AC << "\t"
+      << P << "\t" << C << "\n";
+  return ss.str();
 }
 
 Interpreter::Interpreter() {
@@ -36,41 +35,22 @@ Register Interpreter::getRegister() {
   return resister;
 }
 
-void Interpreter::input() {
-  cout << "\nEnter the starting address:\n";
-  cin >> start;
-  if (!validityAddress(start)) {
-
-    cout << "The memory you entered either does not exist or is reserved by "
-            "the system\nPlease re-enter the program from a new memory "
-            "location\nThe program will quit\n";
-    exit(1);
-  }
+void Interpreter::set_address(string start ) {
   pc = start;
-  sequence.push_back(start);
 }
 
-void Interpreter::multiLine() {
-  cin.ignore();
-  cout << "\nEnter the code:\n";
-  while (1) {
-    string line;
-    getline(cin, line);
-    Memory[pc] = line;
-    sequence.push_back(pc);
-    if (line == "HLT") {
-      break;
-    }
-    pc = updatedAddress(pc, Memory);
+// store in Memory
+// store hlt too
+// execute the line
+// check error
+// return flag
+bool Interpreter::execute(const string &line) {
+  Memory[pc] = line;
+  pc = executionCode(Memory[pc], registers, flag, Memory, pc, last_error);
+  if (last_error != "") {
+    return false;
   }
-  execution(start, Memory, sequence, flag, registers);
+  return true;
 }
 
-void Interpreter::execution(string pc, map<string, string> &Memory,
-                            vector<string> &sequence, bool flag[],
-                            string registers[]) {
-  int size = sequence.size();
-  for (int i = 0; i < size; i++) {
-    pc = executionCode(Memory[sequence[i]], registers, flag, Memory, pc);
-  }
-}
+string Interpreter::get_error() { return last_error; }

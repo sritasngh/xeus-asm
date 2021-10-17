@@ -26,7 +26,7 @@ void hexToDecimal(string pc, int arr[]);
 string updatedAddress(string PC, map<string, string> &Memory);
 string nextAddress(string str, int n);
 string executionCode(string command, string Registers[], bool flag[],
-                     map<string, string> &memory, string programCounter);
+                     map<string, string> &memory, string programCounter, string &);
 bool validityRegisters(string reg);
 bool validityRegisterPair(string reg);
 int registerNumber(string str);

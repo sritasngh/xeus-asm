@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "utils.hpp"
 
@@ -20,24 +21,22 @@ using namespace std;
 struct Register {
   string A, B, C, D, E, H, L, PC;
   bool S, Z, AC, P, CA;
-  friend ostream &operator<<(ostream &out, const Register &r);
+  string toString() const;
 };
 class Interpreter {
 private:
   map<string, string> Memory; //stores instruction
-  vector<string> sequence; //stores pc pointing to an instruction
   string start;
   string pc;
   bool flag[8];
   string registers[7];
-
+  string last_error = "";
 public:
   Interpreter();
   Register getRegister();
-  void input();
-  void multiLine();
-  void execution(string pc, map<string, string> &Memory,
-                 vector<string> &sequence, bool flag[], string registers[]);
+  void set_address(string start );
+  bool execute(const std::string &line);
+  std::string get_error();
 };
 
 #endif // INTERPRETER_HPP_

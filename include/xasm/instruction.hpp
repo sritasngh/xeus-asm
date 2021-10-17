@@ -19,9 +19,9 @@
 using namespace std;
 
 void ADD(string arg1, string registers[], bool flag[],
-         map<string, string> &memory);
+         map<string, string> &memory, string &);
 void MOV(string argument1, string argument2, string registers[], bool flag[],
-         map<string, string> &memory);
+         map<string, string> &memory, string &);
 void MVI(string arg1, string arg2, string registers[], bool flags[],
-         map<string, string> &memory);
+         map<string, string> &memory, string &);
 #endif // INSTRUCTION_HPP_

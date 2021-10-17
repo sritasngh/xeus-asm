@@ -30,7 +30,7 @@ string nextAddress(string str, int n) {
 }
 
 string executionCode(string command, string Registers[], bool flag[],
-                     map<string, string> &memory, string programCounter) {
+                     map<string, string> &memory, string programCounter, string &last_error) {
   vector<string> commandPart;
   // string command = memory[programCounter];
   string inst;
@@ -50,15 +50,15 @@ string executionCode(string command, string Registers[], bool flag[],
   // flag,
   //                              memory);
   if (commandPart[0] == "MOV") {
-    MOV(commandPart[1], commandPart[2], Registers, flag, memory);
+    MOV(commandPart[1], commandPart[2], Registers, flag, memory, last_error);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   } else if (commandPart[0] == "ADD") {
-    ADD(commandPart[1], Registers, flag, memory);
+    ADD(commandPart[1], Registers, flag, memory, last_error);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   } else if (commandPart[0] == "MVI") {
-    MVI(commandPart[1], commandPart[2], Registers, flag, memory);
+    MVI(commandPart[1], commandPart[2], Registers, flag, memory, last_error);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   }

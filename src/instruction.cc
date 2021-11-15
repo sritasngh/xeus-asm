@@ -100,3 +100,59 @@ void MVI(string arg1, string arg2, string registers[], bool flags[],
     return;
   }
 }
+
+//SET instruction
+void SET(string arg1,string arg2,map<string,string> &memory){
+	int l1=arg1.length();
+	int l2=arg2.length();
+	if(l1==4 && l2==2 && validityAddress(arg1)&&validityData(arg2))
+		memory[arg1]=arg2;
+	else{
+		cout<<"Error: "<<arg1<<" & "<<arg2<<"\nInvalid arguments\nThe program will quit\n";
+		exit(0);
+	}
+}
+
+//INR Instruction
+void INR(string arg,string registers[],bool flag[],map<string,string>&memory){
+
+	int length = arg.length();
+	if(length == 1){
+
+		if(validityRegisters(arg)){
+
+			if(arg != "M"){
+
+				/*Performs INR on a register*/
+				int registerID = registerNumber(arg);
+				registers[registerID] = hexAdd(registers[registerID],"01",flag,false); 
+			}
+			else{
+				/*Performs DCR on HL pair*/
+				string address = "";
+				address = address + registers[5] + registers[6];
+				if(validityAddress(address)){
+
+					memory[address] = hexAdd(memory[address],"01",flag,false);
+				}
+				else{
+
+					cout<<"Error: "<<arg<<"\nAddress out of bounds\nThe program will quit\n";
+					exit(0);
+				}
+			}
+		}
+		else{
+
+			cout<<"Error: "<<arg<<"\nInvalid register details\nThe program will quit\n";
+			exit(0);
+			/*Error:Invalid Register*/
+		}
+	}
+	else{
+
+		cout<<"Error: "<<arg<<"\nInvalid argument type\nThe program will quit\n";
+		exit(0);
+		/*Error: Invalid argument type*/
+	}
+}

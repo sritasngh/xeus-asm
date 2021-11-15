@@ -62,6 +62,16 @@ string executionCode(string command, string Registers[], bool flag[],
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   }
+  else if(commandPart[0] == "SET"){
+		SET(commandPart[1],commandPart[2],memory);
+		commandSize = operationSize(commandPart[0]);
+		return nextAddress(programCounter,commandSize);
+	}
+  else if(commandPart[0] == "INR"){
+		INR(commandPart[1],Registers,flag,memory);
+		commandSize = operationSize(commandPart[0]);
+		return nextAddress(programCounter,commandSize);
+	}
   return "";
 }
 

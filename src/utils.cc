@@ -30,7 +30,8 @@ string nextAddress(string str, int n) {
 }
 
 string executionCode(string command, string Registers[], bool flag[],
-                     map<string, string> &memory, string programCounter, string &last_error) {
+                     map<string, string> &memory, string programCounter,
+                     string &last_error) {
   vector<string> commandPart;
   // string command = memory[programCounter];
   string inst;
@@ -53,12 +54,48 @@ string executionCode(string command, string Registers[], bool flag[],
     MOV(commandPart[1], commandPart[2], Registers, flag, memory, last_error);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "MVI") {
+    MVI(commandPart[1], commandPart[2], Registers, flag, memory, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
   } else if (commandPart[0] == "ADD") {
     ADD(commandPart[1], Registers, flag, memory, last_error);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
-  } else if (commandPart[0] == "MVI") {
-    MVI(commandPart[1], commandPart[2], Registers, flag, memory, last_error);
+  } else if (commandPart[0] == "ADI") {
+    ADI(commandPart[1], Registers, flag, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "DAD") {
+    DAD(commandPart[1], Registers, flag, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "SUB") {
+    SUB(commandPart[1], Registers, flag, memory, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "SUI") {
+    SUI(commandPart[1], Registers, flag, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "INR") {
+    INR(commandPart[1], Registers, flag, memory, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "INX") {
+    INX(commandPart[1], Registers, flag, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "DCR") {
+    DCR(commandPart[1], Registers, flag, memory, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "DCX") {
+    DCX(commandPart[1], Registers, flag, last_error);
+    commandSize = operationSize(commandPart[0]);
+    return nextAddress(programCounter, commandSize);
+  } else if (commandPart[0] == "CMP") {
+    CMP(commandPart[1], Registers, flag, memory, last_error);
     commandSize = operationSize(commandPart[0]);
     return nextAddress(programCounter, commandSize);
   }
@@ -81,8 +118,9 @@ bool validityAddress(string data) {
 }
 
 int operationSize(string str) {
-  string one[] = {"HLT", "MOV", "ADD"};
-  string two[] = {"MVI"};
+  string one[] = {"HLT", "MOV", "ADD", "SUB", "INR",
+                  "DCR", "DAD", "INX", "DCX", "CMP"};
+  string two[] = {"MVI", "ADI", "SUI"};
   string three[] = {"SET"};
   const char *ch = str.c_str();
   char *var = (char *)ch;
@@ -174,7 +212,6 @@ int registerNumber(string str) {
 }
 
 string hexAdd(string arg1, string arg2, bool flag[], bool carry) {
-
   string resultant = "";
   int variable;
   int value1[5] = {0, 0};
@@ -221,19 +258,169 @@ string hexAdd(string arg1, string arg2, bool flag[], bool carry) {
   return resultant;
 }
 
-bool isHexadecimal(char a){
+bool isHexadecimal(char a) {
 
-	if((a>='0' && a<='9') || (a>='A' && a<='F'))
-		return true;
-	else
-		return false;
+  if ((a >= '0' && a <= '9') || (a >= 'A' && a <= 'F'))
+    return true;
+  else
+    return false;
 }
 
-bool validityData(string a){
+bool validityData(string a) {
 
-	int l=a.length();
-	if(l==2 && isHexadecimal(a[0]) && isHexadecimal(a[1]))
-		return true;
-	else 
-		return false;
+  int l = a.length();
+  if (l == 2 && isHexadecimal(a[0]) && isHexadecimal(a[1]))
+    return true;
+  else
+    return false;
+}
+
+string hexSub(string arg1, string arg2, bool flag[], bool carry) {
+  string resultant = "";
+  int variable;
+  int parity;
+  int value1[2];
+  int value2[2];
+  int tempAnswer[2];
+  hexToDecimal(arg1, value1);
+  hexToDecimal(arg2, value2);
+  if (value1[1] < value2[1]) {
+    tempAnswer[1] = (16 + value1[1]) - value2[1];
+    --value1[0];
+  } else {
+    tempAnswer[1] = value1[1] - value2[1];
+  }
+  if (value1[0] < value2[0]) {
+    if (carry == true)
+      flag[0] = true;
+    tempAnswer[0] = (16 + value1[0] - value2[0]);
+  } else
+    tempAnswer[0] = value1[0] - value2[0];
+
+  variable = tempAnswer[0] * 16 + tempAnswer[1];
+  bitset<8> dataInBinary(variable);
+  /*Setting parity flag*/
+  parity = dataInBinary.count();
+  if (parity % 2 == 0 && parity != 0)
+    flag[2] = true;
+  else
+    flag[2] = false;
+  /*Setting sign flag*/
+  flag[7] = dataInBinary[7];
+  /*Setting zero flag*/
+  if (parity == 0)
+    flag[6] = true;
+  else
+    flag[6] = false;
+  /*Convert decimal data to hexadecimal and store in accumulator*/
+  for (int i = 1; i >= 0; --i) {
+
+    if (tempAnswer[i] >= 0 && tempAnswer[i] <= 9)
+      resultant = char('0' + tempAnswer[i]) + resultant;
+    else if (tempAnswer[i] >= 10 && tempAnswer[i] <= 15)
+      resultant = (char)('A' + (tempAnswer[i] - 10)) + resultant;
+  }
+  return resultant;
+}
+
+string increaseAddress(string a) {
+  int number[5];
+  string nextAddress = "";
+  int l = a.length();
+  for (int i = l - 1; i >= 0; i--) {
+    if (a[i] >= 'A' && a[i] <= 'F')
+      number[i] = (int)(10 + (a[i] - 'A'));
+    if (a[i] >= '0' && a[i] <= '9')
+      number[i] = (int)(a[i] - '0');
+  }
+  number[l - 1]++;
+  for (int i = l - 1; i >= 0; i--) {
+    if (number[i] >= 0 && number[i] <= 15)
+      break;
+    if (number[i] >= 16) {
+      number[i] = number[i] % 16;
+      number[i - 1]++;
+    }
+  }
+  for (int i = 0; i < l; i++) {
+    if (number[i] >= 0 && number[i] <= 9)
+      nextAddress += (char)('0' + (number[i]));
+    else if (number[i] >= 10 && number[i] <= 15)
+      nextAddress += (char)('A' + (number[i] - 10));
+  }
+  return nextAddress;
+}
+
+string hexSub16bit(string arg1, string arg2, bool flag[], bool carry) {
+
+  string resultant = "";
+  int variable;
+  int parity;
+  int value1[4];
+  int value2[4];
+  int tempAnswer[4];
+  hexToDecimal(arg1, value1);
+  hexToDecimal(arg2, value2);
+  for (int i = 3; i >= 0; i--) {
+    if (value1[i] < value2[i]) {
+      tempAnswer[i] = (16 + value1[i]) - value2[i];
+      if (i != 0)
+        --value1[i - 1];
+      else {
+        if (carry)
+          flag[0] = true;
+      }
+    } else
+
+      tempAnswer[i] = value1[i] - value2[i];
+  }
+  variable = tempAnswer[0] * 16 * 16 * 16 + tempAnswer[1] * 16 * 16 +
+             tempAnswer[2] * 16 + tempAnswer[3];
+  bitset<16> dataInBinary(variable);
+  /*Setting parity flag*/
+  parity = dataInBinary.count();
+  if (parity % 2 == 0 && parity != 0)
+    flag[2] = true;
+  else
+    flag[2] = false;
+  /*Setting sign flag*/
+  flag[7] = dataInBinary[7];
+  /*Setting zero flag*/
+  if (parity == 0) {
+    flag[6] = true;
+  } else {
+    flag[6] = false;
+  }
+  /*Convert decimal data to hexadecimal and store in accumulator*/
+  for (int i = 3; i >= 0; --i) {
+    if (tempAnswer[i] >= 0 && tempAnswer[i] <= 9)
+      resultant = char('0' + tempAnswer[i]) + resultant;
+    else if (tempAnswer[i] >= 10 && tempAnswer[i] <= 15)
+      resultant = (char)('A' + (tempAnswer[i] - 10)) + resultant;
+  }
+
+  return resultant;
+}
+
+string complement(string a) {
+  int l = a.length();
+  string complement = "";
+  for (int i = 0; i < l; i++) {
+    if (a[i] >= '0' && a[i] <= '9') {
+      int diff = 15 - (a[i] - '0');
+      if (diff >= 0 && diff <= 9)
+        complement += ('0' + diff);
+      else if (diff >= 10 && diff <= 15)
+        complement += ('A' + (diff - 10));
+    }
+    if (a[i] >= 'A' && a[i] <= 'F') {
+      int value = a[i] - 'A';
+      int diff = 15 - value;
+      if (diff >= 0 && diff <= 9)
+        complement += ('0' + diff);
+      else if (diff >= 10 && diff <= 15)
+        complement += ('A' + (diff - 10));
+    }
+  }
+  return complement;
 }

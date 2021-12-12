@@ -20,7 +20,7 @@ using namespace std;
 
 struct Register {
   string A, B, C, D, E, H, L, PC;
-  bool S, Z, AC, P, CA;
+  bool S, Z, AC, P, CY;
   string toString() const;
 };
 class Interpreter {

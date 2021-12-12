@@ -7,12 +7,12 @@
 
 #include "xasm/interpreter.hpp"
 
-string Register::toString() const{
+string Register::toString() const {
   stringstream ss;
   ss << "Registers\nA\t" << A << "\nBC\t" << B << "\t" << C << "\nDE\t" << D
      << "\t" << E << "\nHL\t" << H << "\t" << L << "\nPC\t" << PC << "\n";
-  ss << "Flags\nS\tZ\tAC\tP\tAC\n" << S << "\t" << Z << "\t" << AC << "\t"
-      << P << "\t" << C << "\n";
+  ss << "Flags\nS\tZ\tAC\tP\tCY\n"
+     << S << "\t" << Z << "\t" << AC << "\t" << P << "\t" << CY << "\n";
   return ss.str();
 }
 
@@ -35,9 +35,7 @@ Register Interpreter::getRegister() {
   return resister;
 }
 
-void Interpreter::set_address(string start ) {
-  pc = start;
-}
+void Interpreter::set_address(string start) { pc = start; }
 
 // store in Memory
 // store hlt too
